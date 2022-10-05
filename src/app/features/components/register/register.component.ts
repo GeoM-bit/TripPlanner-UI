@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegisterModel } from '../../../../models/registerModel';
-import { CustomValidators } from '../../../core/components/utils/customValidators';
+import { CustomValidators } from '../../../core/utils/customValidators';
 
 @Component({
   selector: 'app-register',
