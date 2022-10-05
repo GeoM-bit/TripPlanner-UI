@@ -5,7 +5,7 @@
 }
 
 .mat-card {
-  width: 500px;
+  width: 480px;
   top: 50px;
   right:50px;
   position: relative;
@@ -45,7 +45,7 @@ img {
 }
 
 .mat-card-content{
-  margin-left:30%;
+  margin-left:25%;
 }
 
 @media screen and (max-width: 450px) {
@@ -77,6 +77,6 @@ img {
 }
 
 .fa-user-plus {
-  color: #673AB7;
+  color: black;
 }
 
