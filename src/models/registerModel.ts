@@ -3,5 +3,5 @@ export class RegisterModel {
   public lastName: String;
   public email: String;
   public password: String;
-  public confirmPassword: String;
+  public confirmationPassword: String;
 }
