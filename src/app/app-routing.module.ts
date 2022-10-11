@@ -7,10 +7,7 @@ import { LayoutComponent } from './core/components/layout/layout.component';
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'layout/register', pathMatch: 'prefix'
-  },
-  {
-    path:'layout', component: LayoutComponent, children: [{
+    path:'', component: LayoutComponent, children: [{
       path: 'register', component: RegisterComponent
     },
       {

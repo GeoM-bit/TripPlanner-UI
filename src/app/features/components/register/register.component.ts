@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../../core/services/authentication.ser
 import { ConfirmValidParentMatcher, CustomValidators } from '../../../core/utils/customValidators';
 import { SnackBarRegisterComponent } from '../snack-bar-register/snack-bar-register.component';
 import { Router } from '@angular/router';
+import { Constants } from 'src/app/core/constants/constants';
 
 @Component({
   selector: 'app-register',
@@ -29,13 +30,14 @@ export class RegisterComponent implements OnInit {
       'password': new FormControl(null, [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#=+';:_,.?!@$%^&*-]).{10,}$")]),
       'confirmationPassword': new FormControl(null, [Validators.required])
     },
-      [CustomValidators.MatchValidator]);
+      [CustomValidators.PasswordMatchValidator]);
+
   }
 
-  togglePasswordVisibility(name: string) {
-    if(name=='password')
+  togglePasswordVisibility(element: HTMLElement) {
+    if(element.getAttribute('formControlName') == Constants.passwordControlName)
       this.hidePassword = !this.hidePassword;
-    else if(name=='confirmationPassword')
+    else if(element.getAttribute('formControlName') == Constants.confirmationPasswordControlName)
       this.hideConfirmationPassword = !this.hideConfirmationPassword;
   }
 
@@ -44,7 +46,8 @@ export class RegisterComponent implements OnInit {
     this.authenticationService.register(this.registerModel).subscribe((response: any) => {
       if (response == true)
       {
-        this.router.navigate(['layout/login'], { queryParams: { registered: 'true' } });
+        this.router.navigate(['login']);
+        this.snackBar.openSnackBar('Your account was successfully created!', '');
       }
       else
         this.openFailedRegisterSnackBar();
@@ -52,7 +55,7 @@ export class RegisterComponent implements OnInit {
   }
 
   openFailedRegisterSnackBar() {
-      this.snackBar.openSnackBar('Your account could not be created!', 'Close');
+      this.snackBar.openSnackBar('Your account could not be created!','');
   }
 
 }

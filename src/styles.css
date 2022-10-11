@@ -4,12 +4,13 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Arial, "Helvetica Neue", sans-serif; }
 
 .registerSnackBar {
-  background: #FFD740;
+  background: #14DF96;
   color: black;
 }
 
-.mat-simple-snackbar-action {
-  color: black;
-  background-color: #f0c72b;
-  border-radius: 10px;
+.mat-simple-snackbar span {
+  margin: auto;
+  text-align: center;
 }
+
+

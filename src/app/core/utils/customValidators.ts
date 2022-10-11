@@ -3,7 +3,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 
 export class CustomValidators {
 
-  static MatchValidator(source: FormGroup) {
+  static PasswordMatchValidator(source: FormGroup) {
       const control1 = source.controls['password'];
       const control2 = source.controls['confirmationPassword'];
       return control1 && control2 && control1.value !== control2.value

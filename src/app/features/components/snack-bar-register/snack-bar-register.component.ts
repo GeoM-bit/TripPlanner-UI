@@ -18,6 +18,7 @@ export class SnackBarRegisterComponent {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       verticalPosition: 'top',
+      duration:5000,
       panelClass: ['registerSnackBar']
     });
   }

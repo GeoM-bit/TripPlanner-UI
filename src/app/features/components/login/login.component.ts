@@ -13,19 +13,5 @@ export class LoginComponent implements OnInit {
   constructor(private route: ActivatedRoute, private snackBar: SnackBarRegisterComponent) { }
 
   ngOnInit(): void {
-    this.route.queryParams
-      .subscribe(params => {
-        console.log(params);
-        this.registered = params.registered;
-        console.log(this.registered);
-      }
-    );
-    if (this.registered)
-      this.openSuccessfulRegisterSnackBar();
   }
-
-  openSuccessfulRegisterSnackBar() {
-    this.snackBar.openSnackBar('Your account was successfully created!', 'Close');
-  }
-
 }
