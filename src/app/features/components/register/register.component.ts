@@ -46,12 +46,16 @@ export class RegisterComponent implements OnInit {
     this.authenticationService.register(this.registerModel).subscribe((response: any) => {
       if (response == true)
       {
-        this.router.navigate(['login']);
-        this.snackBar.openSnackBar('Your account was successfully created!', '');
+        this.redirectToLogin();
       }
       else
         this.openFailedRegisterSnackBar();
     });
+  }
+
+  redirectToLogin(){
+    this.router.navigate(['login']);
+    this.snackBar.openSnackBar('Your account was successfully created!', '');
   }
 
   openFailedRegisterSnackBar() {
