@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './core/components/layout/layout.component';
 import { RegisterComponent } from './features/components/register/register.component';
-import { SnackBarRegisterComponent } from './features/components/snack-bar-register/snack-bar-register.component';
+import { SnackBarComponent } from './features/components/snack-bar/snack-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,9 +24,9 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     LayoutComponent,
     RegisterComponent,
-    SnackBarRegisterComponent,
+    SnackBarComponent,
     LoginComponent,
-    
+
   ],
   imports: [
     BrowserModule,

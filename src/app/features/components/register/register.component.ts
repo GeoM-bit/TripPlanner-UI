@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegisterModel } from '../../../../models/registerModel';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { ConfirmValidParentMatcher, CustomValidators } from '../../../core/utils/customValidators';
-import { SnackBarRegisterComponent } from '../snack-bar-register/snack-bar-register.component';
+import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 import { Router } from '@angular/router';
 import { Constants } from 'src/app/core/constants/constants';
 
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   hideConfirmationPassword = true;
   confirmValidParentMatcher = new ConfirmValidParentMatcher();
 
-  constructor(private authenticationService: AuthenticationService, private snackBar: SnackBarRegisterComponent, private router: Router) { }
+  constructor(private authenticationService: AuthenticationService, private snackBar: SnackBarComponent, private router: Router) { }
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit {
       'confirmationPassword': new FormControl(null, [Validators.required])
     },
       [CustomValidators.PasswordMatchValidator]);
-
   }
 
   togglePasswordVisibility(element: HTMLElement) {
@@ -45,9 +44,7 @@ export class RegisterComponent implements OnInit {
     this.registerModel = this.registerForm.value;
     this.authenticationService.register(this.registerModel).subscribe((response: any) => {
       if (response == true)
-      {
         this.redirectToLogin();
-      }
       else
         this.openFailedRegisterSnackBar();
     });

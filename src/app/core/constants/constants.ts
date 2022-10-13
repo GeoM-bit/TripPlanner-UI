@@ -1,4 +1,4 @@
 export class Constants {
-  public static passwordControlName: string = 'password';
-  public static confirmationPasswordControlName:string  = 'confirmationPassword';
+  public static readonly passwordControlName: string = 'password';
+  public static readonly confirmationPasswordControlName:string  = 'confirmationPassword';
 }
