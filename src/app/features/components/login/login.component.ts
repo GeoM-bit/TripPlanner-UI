@@ -5,6 +5,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomValidators} from "../../../core/utils/customValidators";
 import {SnackBarComponent} from "../snack-bar/snack-bar.component";
 import {UserRoles} from "../../../core/enums/userRoles";
+import {TokenModel} from "../../../../models/tokenModel";
+import {Token} from "@angular/compiler";
 
 @Component({
   selector: 'app-login',
@@ -19,43 +21,45 @@ export class LoginComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService, private snackBar: SnackBarComponent) { }
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      'email': new FormControl(null,[Validators.required, Validators.email, CustomValidators.WhitespaceInput]),
-      'password': new FormControl(null, [Validators.required])
-    })
+    this.initForm();
   }
 
   togglePasswordVisibility(element: HTMLElement) {
-      this.hidePassword = !this.hidePassword;
+    this.hidePassword = !this.hidePassword;
   }
 
   onSubmit() {
     this.loginModel = this.loginForm.value;
-    this.authenticationService.login(this.loginModel).subscribe((response: any) => {
-      if(response!=null)
+    this.authenticationService.login(this.loginModel).subscribe((response: TokenModel) => {
+      if(response!=null) {
         this.redirectToViewBusinessTripsBasedOnRole(response);
-      else
+      }
+      else {
         this.openFailedLoginSnackBar();
+      }
     });
   }
 
-  redirectToViewBusinessTripsBasedOnRole(response: any){
-    let jwtData = response.split('.')[1]
-    let decodedJwtJsonData = window.atob(jwtData)
-    let decodedJwtData = JSON.parse(decodedJwtJsonData)
-    let role = decodedJwtData.role;
-    if(role==UserRoles[0])
-    {
+  redirectToViewBusinessTripsBasedOnRole(response: TokenModel){
+    let role = this.authenticationService.decodeToken(response);
+    if(role==UserRoles[0]) {
       //will be redirected to user page
     }
-    else if(role==UserRoles[1])
-    {
+    else if(role==UserRoles[1]) {
       //will be redirected to bto page
     }
   }
 
   openFailedLoginSnackBar() {
     this.snackBar.openSnackBar('Failed login attempt!','');
+  }
+
+  initForm()
+  {
+    this.loginForm = new FormGroup({
+      'email': new FormControl(null,[Validators.required, Validators.email, CustomValidators.WhitespaceInput]),
+      'password': new FormControl(null, [Validators.required])
+    });
   }
 
 }

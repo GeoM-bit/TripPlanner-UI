@@ -26,7 +26,6 @@ import { AppRoutingModule } from './app-routing.module';
     RegisterComponent,
     SnackBarComponent,
     LoginComponent,
-
   ],
   imports: [
     BrowserModule,

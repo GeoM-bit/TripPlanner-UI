@@ -23,30 +23,27 @@ export class RegisterComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService, private snackBar: SnackBarComponent, private router: Router) { }
 
   ngOnInit(): void {
-    this.registerForm = new FormGroup({
-      'firstName': new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z ]*$"), CustomValidators.WhitespaceInput]),
-      'lastName': new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z ]*$"), CustomValidators.WhitespaceInput]),
-      'email': new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z]+\\.[a-zA-Z]+@nagarro.com$")]),
-      'password': new FormControl(null, [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#=+';:_,.?!@$%^&*-]).{10,}$")]),
-      'confirmationPassword': new FormControl(null, [Validators.required])
-    },
-      [CustomValidators.PasswordMatchValidator]);
+    this.initForm();
   }
 
   togglePasswordVisibility(element: HTMLElement) {
-    if(element.getAttribute('formControlName') == Constants.passwordControlName)
+    if(element.getAttribute('formControlName') == Constants.passwordControlName) {
       this.hidePassword = !this.hidePassword;
-    else if(element.getAttribute('formControlName') == Constants.confirmationPasswordControlName)
+    }
+    else if(element.getAttribute('formControlName') == Constants.confirmationPasswordControlName) {
       this.hideConfirmationPassword = !this.hideConfirmationPassword;
+    }
   }
 
   onSubmit() {
     this.registerModel = this.registerForm.value;
     this.authenticationService.register(this.registerModel).subscribe((response: any) => {
-      if (response == true)
+      if (response == true) {
         this.redirectToLogin();
-      else
+      }
+      else {
         this.openFailedRegisterSnackBar();
+      }
     });
   }
 
@@ -59,4 +56,14 @@ export class RegisterComponent implements OnInit {
       this.snackBar.openSnackBar('Your account could not be created!','');
   }
 
+  initForm(){
+    this.registerForm = new FormGroup({
+        'firstName': new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z ]*$"), CustomValidators.WhitespaceInput]),
+        'lastName': new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z ]*$"), CustomValidators.WhitespaceInput]),
+        'email': new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z]+\\.[a-zA-Z]+@nagarro.com$")]),
+        'password': new FormControl(null, [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#=+';:_,.?!@$%^&*-]).{10,}$")]),
+        'confirmationPassword': new FormControl(null, [Validators.required])
+      },
+      [CustomValidators.PasswordMatchValidator]);
+  }
 }

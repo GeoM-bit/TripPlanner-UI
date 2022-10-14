@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { RegisterModel } from '../../../models/registerModel';
 import { environment } from 'src/environments/environment';
 import {LoginModel} from "../../../models/loginModel";
+import {TokenModel} from "../../../models/tokenModel";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,16 @@ export class AuthenticationService {
   }
 
   login(user: LoginModel): Observable<any> {
-    return this.http.post(environment.baseUrl + '/api/user/login', user, {responseType: 'text'});
+    return this.http.post<TokenModel>(environment.baseUrl + '/api/user/login', user);
+  }
+
+  decodeToken(response: TokenModel)
+  {
+    let jwtData = response.token.split('.')[1];
+    let decodedJwtJsonData = window.atob(jwtData);
+    let decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+    return decodedJwtData.role;
   }
 
 }
