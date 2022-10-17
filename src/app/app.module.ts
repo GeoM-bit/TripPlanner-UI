@@ -16,8 +16,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { LoginComponent } from './features/components/login/login.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ViewFilterTripsComponent } from './features/components/view-filter-trips/view-filter-trips.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import { AppRoutingModule } from './app-routing.module';
     RegisterComponent,
     SnackBarComponent,
     LoginComponent,
+    ViewFilterTripsComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +42,8 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
     MatToolbarModule,
     MatCardModule,
+    MatTableModule,
+    MatDatepickerModule,
     HttpClientModule,
     MatSnackBarModule,
     AppRoutingModule
