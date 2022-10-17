@@ -2,16 +2,16 @@ import { Component, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-snack-bar-register',
-  templateUrl: './snack-bar-register.component.html',
-  styleUrls: ['./snack-bar-register.component.css']
+  selector: 'app-snack-bar',
+  templateUrl: './snack-bar.component.html',
+  styleUrls: ['./snack-bar.component.css']
 })
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class SnackBarRegisterComponent {
+export class SnackBarComponent {
 
   constructor(private _snackBar: MatSnackBar) { }
 
@@ -19,7 +19,7 @@ export class SnackBarRegisterComponent {
     this._snackBar.open(message, action, {
       verticalPosition: 'top',
       duration:5000,
-      panelClass: ['registerSnackBar']
+      panelClass: ['snackBar']
     });
   }
 }
