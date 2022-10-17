@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
   }
 
   redirectToViewBusinessTripsBasedOnRole(response: TokenModel){
-    let role = this.authenticationService.decodeToken(response);
+    let role = this.authenticationService.getUserRole(response);
     if(role==UserRoles[0]) {
       //will be redirected to user page
     }
