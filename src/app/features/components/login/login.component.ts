@@ -6,7 +6,7 @@ import {CustomValidators} from "../../../core/utils/customValidators";
 import {SnackBarComponent} from "../snack-bar/snack-bar.component";
 import {UserRoles} from "../../../core/enums/userRoles";
 import {TokenModel} from "../../../../models/tokenModel";
-import {Token} from "@angular/compiler";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   hidePassword = true;
 
-  constructor(private authenticationService: AuthenticationService, private snackBar: SnackBarComponent) { }
+  constructor(private authenticationService: AuthenticationService, private snackBar: SnackBarComponent, private router: Router) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -32,7 +32,8 @@ export class LoginComponent implements OnInit {
     this.loginModel = this.loginForm.value;
     this.authenticationService.login(this.loginModel).subscribe((response: TokenModel) => {
       if(response!=null) {
-        this.redirectToViewBusinessTripsBasedOnRole(response);
+        localStorage.setItem('token', JSON.stringify({ token: response.token}));
+        this.redirectToViewBusinessTripsBasedOnRole();
       }
       else {
         this.openFailedLoginSnackBar();
@@ -40,10 +41,10 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  redirectToViewBusinessTripsBasedOnRole(response: TokenModel){
-    let role = this.authenticationService.getUserRole(response);
+  redirectToViewBusinessTripsBasedOnRole(){
+    let role = this.authenticationService.getUserRole();
     if(role==UserRoles[0]) {
-      //will be redirected to user page
+      this.router.navigate(['view-trips']);
     }
     else if(role==UserRoles[1]) {
       //will be redirected to bto page

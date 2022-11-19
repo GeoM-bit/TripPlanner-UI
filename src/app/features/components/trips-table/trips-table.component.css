@@ -1,0 +1,15 @@
+.mat-table{
+  width: 80%;
+  position: relative;
+  left: 5%;
+  margin-top: 10%;
+  margin-bottom: 70px;
+}
+
+.mat-row:hover {
+  background-color: #f6f6f6;
+}
+
+.mat-cell {
+  text-align: left;
+}

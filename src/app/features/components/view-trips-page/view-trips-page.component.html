@@ -1,0 +1,4 @@
+<div class="container">
+<app-filter-form (filter)="populateTable($event)"></app-filter-form>
+<app-trips-table [dataSource]="tableElements"></app-trips-table>
+</div>

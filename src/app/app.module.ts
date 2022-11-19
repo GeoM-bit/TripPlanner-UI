@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './core/components/layout/layout.component';
@@ -18,9 +18,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
+import { MatSortModule } from '@angular/material/sort';
 import { LoginComponent } from './features/components/login/login.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ViewFilterTripsComponent } from './features/components/view-filter-trips/view-filter-trips.component';
+import { FilterFormComponent } from './features/components/filter-form/filter-form.component';
+import { TripsTableComponent } from './features/components/trips-table/trips-table.component';
+import { ViewTripsPageComponent } from './features/components/view-trips-page/view-trips-page.component';
+import {JwtInterceptor} from "./core/interceptor/token.interceptor";
 
 @NgModule({
   declarations: [
@@ -29,7 +35,9 @@ import { ViewFilterTripsComponent } from './features/components/view-filter-trip
     RegisterComponent,
     SnackBarComponent,
     LoginComponent,
-    ViewFilterTripsComponent
+    FilterFormComponent,
+    TripsTableComponent,
+    ViewTripsPageComponent
   ],
   imports: [
     BrowserModule,
@@ -46,9 +54,15 @@ import { ViewFilterTripsComponent } from './features/components/view-filter-trip
     MatDatepickerModule,
     HttpClientModule,
     MatSnackBarModule,
+    MatSelectModule,
+    MatSortModule,
+    MatMomentDateModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
