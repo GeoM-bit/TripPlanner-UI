@@ -32,7 +32,7 @@ export class FilterFormComponent implements OnInit {
   missingDateMatcher = new MissingDateMatcher();
 
   @Output()
-  filter = new EventEmitter<UserTripModel[]>();
+  filter = new EventEmitter<GetTripsModel>();
 
   constructor(private dateAdapter: DateAdapter<Date>, private _liveAnnouncer: LiveAnnouncer, private viewTripsService: ViewTripsService, private authenticationService: AuthenticationService) {
     this.dateAdapter.setLocale('en-GB');
@@ -41,12 +41,14 @@ export class FilterFormComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.getTripsModel.email = this.viewTripsService.getEmail();
-    this.viewTripsService.getFilteredTripsForUser(this.getTripsModel).subscribe((response: UserTripModel[]) => {
+    this.filterComplete(this.getTripsModel);
+    /*this.viewTripsService.getFilteredTripsForUser(this.getTripsModel).subscribe((response: UserTripModel[]) => {
       if (response != null)
       {
         this.filterComplete(response);
       }
     });
+     */
   }
 
   onSubmit() {
@@ -54,23 +56,30 @@ export class FilterFormComponent implements OnInit {
     this.checkForWhiteSpaces();
     this.getTripsModel.email = this.viewTripsService.getEmail();
     this.getTripsModel.searchCriteria = this.filterModel;
+    this.filterComplete(this.getTripsModel);
 
-    this.viewTripsService.getFilteredTripsForUser(this.getTripsModel).subscribe((response: UserTripModel[]) => {
+    /*this.viewTripsService.getFilteredTripsForUser(this.getTripsModel).subscribe((response: UserTripModel[]) => {
       if (response != null)
       {
         this.filterComplete(response);
       }
     });
+
+     */
   }
 
   onReset(){
     this.getTripsModel.searchCriteria = null;
-    this.viewTripsService.getFilteredTripsForUser(this.getTripsModel).subscribe((response: UserTripModel[]) => {
+    this.filterComplete(this.getTripsModel);
+
+    /*this.viewTripsService.getFilteredTripsForUser(this.getTripsModel).subscribe((response: UserTripModel[]) => {
       if (response != null)
       {
         this.filterComplete(response);
       }
     });
+
+     */
   }
 
   initForm() {
@@ -111,7 +120,7 @@ export class FilterFormComponent implements OnInit {
     this.clearStartDate = null;
   }
 
-  filterComplete(response: UserTripModel[]) {
+  filterComplete(response: GetTripsModel) {
     this.filter.emit(response);
   }
 

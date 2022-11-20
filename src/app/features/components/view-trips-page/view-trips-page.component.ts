@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {UserTripModel} from "../../../../models/userTripModel";
-import {Observable, of} from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
+import {GetTripsModel} from "../../../../models/getTripsModel";
 
 @Component({
   selector: 'app-view-trips-page',
@@ -9,13 +10,15 @@ import {MatTableDataSource} from "@angular/material/table";
   styleUrls: ['./view-trips-page.component.css']
 })
 export class ViewTripsPageComponent implements OnInit {
-  tableElements: Observable<UserTripModel[]>;
+  filterElements: GetTripsModel;
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  populateTable(response: UserTripModel[]){
-    this.tableElements=of(response);
+  populateTable(response: GetTripsModel){
+    this.filterElements = new GetTripsModel();
+    this.filterElements = response;
+    console.log(response);
   }
 }
