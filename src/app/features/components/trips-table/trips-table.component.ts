@@ -1,14 +1,16 @@
-import {AfterViewInit, Component, DoCheck, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
-import {MatSort, Sort} from "@angular/material/sort";
+import {MatSort} from "@angular/material/sort";
 import {StatusMapping} from "../../../core/enums/requestStatus";
+import {AreaMapping} from "../../../core/enums/areaType";
 import {AuthenticationService} from "../../../core/services/authentication.service";
 import {UserRoles} from "../../../core/enums/userRoles";
 import {UserTripModel} from "../../../../models/userTripModel";
-import {GetTripsModel} from "../../../../models/getTripsModel";
 import {ViewTripsService} from "../../../core/services/viewTrips.service";
-import {Observable, Subscription} from "rxjs";
+import {Subject} from "rxjs";
+import {MatPaginator} from "@angular/material/paginator";
+import {BtoTripModel} from "../../../../models/btoTripModel";
+import {FilterModel} from "../../../../models/filterModel";
 
 @Component({
   selector: 'app-trips-table',
@@ -16,48 +18,72 @@ import {Observable, Subscription} from "rxjs";
   styleUrls: ['./trips-table.component.css']
 })
 
-export class TripsTableComponent implements OnInit, OnChanges{
-  displayedColumns: string[] = ['client', 'clientLocation', 'projectName', 'startDate', 'endDate', 'accommodation', 'status', 'action'];
+export class TripsTableComponent implements OnInit, AfterViewInit{
+  displayedColumnsUser: string[] = ['client', 'clientLocation', 'projectName', 'startDate', 'endDate', 'accommodation', 'status', 'action'];
+  displayedColumnsBTO: string[] = ['firstName', 'email','pmName','area','client', 'clientLocation', 'projectName', 'startDate', 'endDate', 'accommodation', 'action'];
+  displayedColumns: string[];
   statusMapping = StatusMapping;
+  areaMapping = AreaMapping;
   user: String;
   userRole = UserRoles[0];
   btoRole = UserRoles[1];
   dataSource: MatTableDataSource<any>;
+  noTrips=false;
 
-  @Input() filter: GetTripsModel;
-  constructor(private _liveAnnouncer: LiveAnnouncer, private viewTripsService: ViewTripsService, private authenticationService: AuthenticationService){
+  @Input() filter: FilterModel;
+  @Input() sub:Subject<FilterModel>;
+
+  constructor(private viewTripsService: ViewTripsService, private authenticationService: AuthenticationService){
   }
 
-  @ViewChild(MatSort , {static: false}) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUserRole();
-
-    this.getData();
+    this.getData(this.filter);
   }
 
-  ngOnChanges(changes: any) {
-    console.log(changes.filter);
+  ngAfterViewInit():void{
+    this.sub.subscribe((response)=>{
+      this.getData(response);
+    })
   }
 
-  getData(){
-    this.viewTripsService.getFilteredTripsForUser(this.filter).subscribe((response: UserTripModel[]) => {
-          this.dataSource = new MatTableDataSource(response);
-          console.log(this.dataSource);
-          this.dataSource.sort=this.sort;
+  getData(searchCriteria: FilterModel){
+    this.noTrips = false;
+    debugger
+    if(this.user==this.userRole) {
+      this.displayedColumns=this.displayedColumnsUser;
+      this.viewTripsService.getFilteredTripsForUser(searchCriteria).subscribe((response: UserTripModel[]) => {
+        if(response.length==0){
+          this.noTrips=true;
+        }
+        debugger
+        this.dataSource = new MatTableDataSource(response);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort=this.sort;
+
         }
       )
-  }
-
-  /*announceSortChange(sortState: Sort) {
-   if (sortState.direction) {
-    this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-    this._liveAnnouncer.announce('Sorting cleared');
     }
-   this.dataSource.sort = this.sort;
-   (matSortChange)="announceSortChange($event)"
+    if(this.user==this.btoRole) {
+      this.displayedColumns=this.displayedColumnsBTO;
+      this.viewTripsService.getFilteredTripsForBTO(searchCriteria).subscribe((response: BtoTripModel[]) => {
+        if(response.length==0){
+          this.noTrips=true;
+        }
+        this.dataSource = new MatTableDataSource(response);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort=this.sort;
+        }
+      )
+    }
+    console.log(this.noTrips);
   }
 
-   */
+  checkBtoRole(){
+    return this.user==UserRoles[1] ? true: false;
+  }
+
 }

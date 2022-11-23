@@ -1,9 +1,9 @@
 .mat-table{
-  width: 80%;
+  width: 90%;
   position: relative;
   left: 5%;
   margin-top: 10%;
-  margin-bottom: 70px;
+
 }
 
 .mat-row:hover {
@@ -12,4 +12,24 @@
 
 .mat-cell {
   text-align: left;
+}
+
+.mat-paginator{
+  margin-bottom: 10%;
+  witdh: 97%;
+}
+
+.mat-column-action {
+  width:10%;
+}
+
+.mat-raised-button{
+  width: 80px;
+  text-align: center;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.noDataRow{
+  height: 60px;
 }

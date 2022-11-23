@@ -1,4 +1,4 @@
 <div class="container">
 <app-filter-form (filter)="populateTable($event)"></app-filter-form>
-<app-trips-table [filter]="filterElements" ></app-trips-table>
+<app-trips-table [filter]="filterElements" [sub]="dataSubject"></app-trips-table>
 </div>

@@ -27,6 +27,8 @@ import { FilterFormComponent } from './features/components/filter-form/filter-fo
 import { TripsTableComponent } from './features/components/trips-table/trips-table.component';
 import { ViewTripsPageComponent } from './features/components/view-trips-page/view-trips-page.component';
 import {JwtInterceptor} from "./core/interceptor/token.interceptor";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {CdkColumnDef} from "@angular/cdk/table";
 
 @NgModule({
   declarations: [
@@ -39,29 +41,31 @@ import {JwtInterceptor} from "./core/interceptor/token.interceptor";
     TripsTableComponent,
     ViewTripsPageComponent
   ],
-  imports: [
-    BrowserModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    FormsModule,
-    MatToolbarModule,
-    MatCardModule,
-    MatTableModule,
-    MatDatepickerModule,
-    HttpClientModule,
-    MatSnackBarModule,
-    MatSelectModule,
-    MatSortModule,
-    MatMomentDateModule,
-    AppRoutingModule
-  ],
+    imports: [
+        BrowserModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        FormsModule,
+        MatToolbarModule,
+        MatCardModule,
+        MatTableModule,
+        MatDatepickerModule,
+        HttpClientModule,
+        MatSnackBarModule,
+        MatSelectModule,
+        MatSortModule,
+        MatMomentDateModule,
+        AppRoutingModule,
+        MatPaginatorModule
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    { provide: CdkColumnDef}
   ],
   bootstrap: [AppComponent]
 })

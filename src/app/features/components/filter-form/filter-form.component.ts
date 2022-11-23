@@ -7,10 +7,7 @@ import {DateAdapter} from "@angular/material/core";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {ViewTripsService} from "../../../core/services/viewTrips.service";
 import {UserRoles} from "../../../core/enums/userRoles";
-import {GetTripsModel} from "../../../../models/getTripsModel";
-import {UserTripModel} from "../../../../models/userTripModel";
 import {AuthenticationService} from "../../../core/services/authentication.service";
-import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-filter-form',
@@ -19,20 +16,19 @@ import {DatePipe} from "@angular/common";
 })
 export class FilterFormComponent implements OnInit {
   filterForm: FormGroup;
-  filterModel: FilterModel;
   clearLocation = '';
   clearAccommodation = '';
   clearClient = '';
   statusMapping = StatusMapping;
   clearEndDate: Date=null;
   clearStartDate: Date=null;
-  getTripsModel = new GetTripsModel();
+  searchCriteria = new FilterModel();
   statusTypes = Object.values(RequestStatus).filter(value=>typeof value === 'number');
   confirmValidDateMatcher = new ConfirmValidDateMatcher();
   missingDateMatcher = new MissingDateMatcher();
 
   @Output()
-  filter = new EventEmitter<GetTripsModel>();
+  filter = new EventEmitter<FilterModel>();
 
   constructor(private dateAdapter: DateAdapter<Date>, private _liveAnnouncer: LiveAnnouncer, private viewTripsService: ViewTripsService, private authenticationService: AuthenticationService) {
     this.dateAdapter.setLocale('en-GB');
@@ -40,46 +36,24 @@ export class FilterFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.getTripsModel.email = this.viewTripsService.getEmail();
-    this.filterComplete(this.getTripsModel);
-    /*this.viewTripsService.getFilteredTripsForUser(this.getTripsModel).subscribe((response: UserTripModel[]) => {
-      if (response != null)
-      {
-        this.filterComplete(response);
-      }
-    });
-     */
+    this.filterComplete(this.searchCriteria);
   }
 
   onSubmit() {
-    this.filterModel = this.filterForm.value;
+    this.searchCriteria = this.filterForm.value;
     this.checkForWhiteSpaces();
-    this.getTripsModel.email = this.viewTripsService.getEmail();
-    this.getTripsModel.searchCriteria = this.filterModel;
-    this.filterComplete(this.getTripsModel);
-
-    /*this.viewTripsService.getFilteredTripsForUser(this.getTripsModel).subscribe((response: UserTripModel[]) => {
-      if (response != null)
-      {
-        this.filterComplete(response);
-      }
-    });
-
-     */
+    this.filterComplete(this.searchCriteria);
   }
 
   onReset(){
-    this.getTripsModel.searchCriteria = null;
-    this.filterComplete(this.getTripsModel);
+    this.searchCriteria.client = null;
+    this.searchCriteria.accommodation=null;
+    this.searchCriteria.clientLocation=null;
+    this.searchCriteria.startDate=null;
+    this.searchCriteria.endDate=null;
+    this.searchCriteria.status=null;
 
-    /*this.viewTripsService.getFilteredTripsForUser(this.getTripsModel).subscribe((response: UserTripModel[]) => {
-      if (response != null)
-      {
-        this.filterComplete(response);
-      }
-    });
-
-     */
+    this.filterComplete(this.searchCriteria);
   }
 
   initForm() {
@@ -120,37 +94,37 @@ export class FilterFormComponent implements OnInit {
     this.clearStartDate = null;
   }
 
-  filterComplete(response: GetTripsModel) {
+  filterComplete(response: FilterModel) {
     this.filter.emit(response);
   }
 
   checkForWhiteSpaces()
   {
-    if(this.filterModel.accommodation == "")
+    if(this.searchCriteria.accommodation == "")
     {
-      this.filterModel.accommodation = null;
+      this.searchCriteria.accommodation = null;
     }
-    else if(this.filterModel.accommodation !=null)
+    else if(this.searchCriteria.accommodation !=null)
     {
-      this.filterModel.accommodation = this.filterModel.accommodation.trim();
-    }
-
-    if(this.filterModel.client == "")
-    {
-      this.filterModel.client = null;
-    }
-    else if(this.filterModel.client !=null)
-    {
-      this.filterModel.client = this.filterModel.client.trim();
+      this.searchCriteria.accommodation = this.searchCriteria.accommodation.trim();
     }
 
-    if(this.filterModel.clientLocation == "")
+    if(this.searchCriteria.client == "")
     {
-      this.filterModel.clientLocation = null;
+      this.searchCriteria.client = null;
     }
-    else if(this.filterModel.clientLocation !=null)
+    else if(this.searchCriteria.client !=null)
     {
-      this.filterModel.clientLocation = this.filterModel.clientLocation.trim();
+      this.searchCriteria.client = this.searchCriteria.client.trim();
+    }
+
+    if(this.searchCriteria.clientLocation == "")
+    {
+      this.searchCriteria.clientLocation = null;
+    }
+    else if(this.searchCriteria.clientLocation !=null)
+    {
+      this.searchCriteria.clientLocation = this.searchCriteria.clientLocation.trim();
     }
   }
 }

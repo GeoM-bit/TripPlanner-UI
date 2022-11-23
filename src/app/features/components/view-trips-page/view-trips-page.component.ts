@@ -1,8 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {UserTripModel} from "../../../../models/userTripModel";
-import {Observable, of, Subject} from "rxjs";
-import {MatTableDataSource} from "@angular/material/table";
-import {GetTripsModel} from "../../../../models/getTripsModel";
+import {Component,OnInit} from '@angular/core';
+import {Subject} from "rxjs";
+import {FilterModel} from "../../../../models/filterModel";
 
 @Component({
   selector: 'app-view-trips-page',
@@ -10,15 +8,15 @@ import {GetTripsModel} from "../../../../models/getTripsModel";
   styleUrls: ['./view-trips-page.component.css']
 })
 export class ViewTripsPageComponent implements OnInit {
-  filterElements: GetTripsModel;
+  filterElements= new FilterModel();
+  dataSubject: Subject<FilterModel> = new Subject();
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  populateTable(response: GetTripsModel){
-    this.filterElements = new GetTripsModel();
+  populateTable(response: FilterModel){
     this.filterElements = response;
-    console.log(response);
+    this.dataSubject.next(this.filterElements);
   }
 }

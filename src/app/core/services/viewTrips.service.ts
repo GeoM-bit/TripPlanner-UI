@@ -3,7 +3,8 @@ import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {Injectable} from "@angular/core";
 import {UserTripModel} from "../../../models/userTripModel";
-import {GetTripsModel} from "../../../models/getTripsModel";
+import {FilterModel} from "../../../models/filterModel";
+import {BtoTripModel} from "../../../models/btoTripModel";
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +13,11 @@ export class ViewTripsService {
   constructor(private http: HttpClient) {
   }
 
-  getFilteredTripsForUser(getTripsModel: GetTripsModel): Observable<any> {
-    return this.http.post<UserTripModel[]>(environment.baseUrl + '/api/userviewbusinesstrips/tripsforuser',getTripsModel);
+  getFilteredTripsForUser(searchCriteria: FilterModel): Observable<any> {
+    return this.http.post<UserTripModel[]>(environment.baseUrl + '/api/viewbusinesstrips/viewtrips',searchCriteria);
   }
 
-  getEmail()
-  {
-    let token = localStorage.getItem('token');
-    let jwtData = token.split('.')[1];
-    let decodedJwtJsonData = window.atob(jwtData);
-    let decodedJwtData = JSON.parse(decodedJwtJsonData);
-
-    return decodedJwtData.name;
+  getFilteredTripsForBTO(searchCriteria: FilterModel): Observable<any> {
+    return this.http.post<BtoTripModel[]>(environment.baseUrl + '/api/viewbusinesstrips/viewtrips',searchCriteria);
   }
 }

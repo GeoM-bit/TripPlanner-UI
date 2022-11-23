@@ -43,11 +43,8 @@ export class LoginComponent implements OnInit {
 
   redirectToViewBusinessTripsBasedOnRole(){
     let role = this.authenticationService.getUserRole();
-    if(role==UserRoles[0]) {
+    if(role==UserRoles[0] || role==UserRoles[1]) {
       this.router.navigate(['view-trips']);
-    }
-    else if(role==UserRoles[1]) {
-      //will be redirected to bto page
     }
   }
 
