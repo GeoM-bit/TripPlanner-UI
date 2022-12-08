@@ -1,0 +1,8 @@
+<div mat-dialog-content>
+  <p>You are about to <b>{{data.newStatus}}</b> the request. Proceed?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" [mat-dialog-close]="" (click)="onAction()">Yes</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="" (click)="closeDialog()">No</button>
+</div>
+

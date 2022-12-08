@@ -46,14 +46,7 @@ export class FilterFormComponent implements OnInit {
   }
 
   onReset(){
-    this.searchCriteria.client = null;
-    this.searchCriteria.accommodation=null;
-    this.searchCriteria.clientLocation=null;
-    this.searchCriteria.startDate=null;
-    this.searchCriteria.endDate=null;
-    this.searchCriteria.status=null;
-
-    this.filterComplete(this.searchCriteria);
+    this.filterComplete(new FilterModel());
   }
 
   initForm() {

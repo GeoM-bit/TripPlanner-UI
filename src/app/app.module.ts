@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
@@ -29,6 +30,8 @@ import { ViewTripsPageComponent } from './features/components/view-trips-page/vi
 import {JwtInterceptor} from "./core/interceptor/token.interceptor";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {CdkColumnDef} from "@angular/cdk/table";
+import {CommonModule} from "@angular/common";
+import {DialogComponent} from './features/components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,8 @@ import {CdkColumnDef} from "@angular/cdk/table";
     LoginComponent,
     FilterFormComponent,
     TripsTableComponent,
-    ViewTripsPageComponent
+    ViewTripsPageComponent,
+    DialogComponent
   ],
     imports: [
         BrowserModule,
@@ -60,7 +64,9 @@ import {CdkColumnDef} from "@angular/cdk/table";
         MatSortModule,
         MatMomentDateModule,
         AppRoutingModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatDialogModule,
+        CommonModule,
     ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
