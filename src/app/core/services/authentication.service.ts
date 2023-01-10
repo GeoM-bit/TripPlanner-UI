@@ -21,7 +21,7 @@ export class AuthenticationService {
     return this.http.post<TokenModel>(environment.baseUrl + '/api/user/login', user);
   }
 
-  getUserRole()
+   getRole(): string
   {
     let token = localStorage.getItem('token');
     let jwtData = token.split('.')[1];

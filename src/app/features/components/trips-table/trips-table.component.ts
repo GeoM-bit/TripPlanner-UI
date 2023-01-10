@@ -4,7 +4,7 @@ import {MatSort} from "@angular/material/sort";
 import {RequestStatus, StatusMapping} from "../../../core/enums/requestStatus";
 import {AreaMapping} from "../../../core/enums/areaType";
 import {AuthenticationService} from "../../../core/services/authentication.service";
-import {UserRoles} from "../../../core/enums/userRoles";
+import {Roles} from "../../../core/enums/Roles";
 import {UserTripModel} from "../../../../models/userTripModel";
 import {ViewTripsService} from "../../../core/services/viewTrips.service";
 import {Subject} from "rxjs";
@@ -30,9 +30,7 @@ export class TripsTableComponent implements OnInit, AfterViewInit{
   status: RequestStatus;
   statusMapping = StatusMapping;
   areaMapping = AreaMapping;
-  user: String;
-  userRole = UserRoles[0];
-  btoRole = UserRoles[1];
+  user: string;
   dataSource= new MatTableDataSource<any>;
   noTrips=false;
   updateTripStatusModel= new UpdateTripStatusModel();
@@ -47,7 +45,7 @@ export class TripsTableComponent implements OnInit, AfterViewInit{
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
-    this.user = this.authenticationService.getUserRole();
+    this.user = this.authenticationService.getRole();
     this.getData(this.filter);
   }
 
@@ -58,7 +56,7 @@ export class TripsTableComponent implements OnInit, AfterViewInit{
   }
 
   getData(searchCriteria: FilterModel){
-    if(this.user==this.userRole) {
+    if(this.user==Roles[0]) {
       this.displayedColumns=this.displayedColumnsUser;
       this.viewTripsService.getFilteredTripsForUser(searchCriteria).subscribe((response: UserTripModel[]) => {
         this.dataSource = new MatTableDataSource(response);
@@ -69,7 +67,7 @@ export class TripsTableComponent implements OnInit, AfterViewInit{
         }
       })
     }
-    if(this.user==this.btoRole) {
+    if(this.user==Roles[1]) {
       this.displayedColumns=this.displayedColumnsBTO;
       this.viewTripsService.getFilteredTripsForBTO(searchCriteria).subscribe((response: BtoTripModel[]) => {
         this.dataSource = new MatTableDataSource(response);
@@ -81,10 +79,6 @@ export class TripsTableComponent implements OnInit, AfterViewInit{
       })
     }
     this.noTrips = this.dataSource.data.length==0 ? true:false;
-  }
-
-  checkBtoRole(){
-    return this.user==UserRoles[1] ? true:false;
   }
 
   onUpdateStatus(id: Guid, elementStatus: String){
@@ -121,4 +115,13 @@ export class TripsTableComponent implements OnInit, AfterViewInit{
       }
     )
   }
+
+  getUserRole(){
+    return Roles[0];
+  }
+  getBtoRole(){
+    return Roles[1];
+  }
+
+
 }

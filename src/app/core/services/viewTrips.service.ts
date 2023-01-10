@@ -1,4 +1,4 @@
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {Injectable} from "@angular/core";
@@ -23,6 +23,6 @@ export class ViewTripsService {
   }
 
   updateTripStatus(updateTripStatusModel: UpdateTripStatusModel): Observable<boolean>{
-    return this.http.put<boolean>(environment.baseUrl + '/api/viewbusinesstrips/updatetrip', updateTripStatusModel);
+    return this.http.put<boolean>(environment.baseUrl + '/api/viewbusinesstrips/updatetripstatus/' + updateTripStatusModel.id + "/", null, {params: new HttpParams().set('status', updateTripStatusModel.status)});
   }
 }

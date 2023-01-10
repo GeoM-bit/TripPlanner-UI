@@ -4,9 +4,8 @@ import {FilterModel} from "../../../../models/filterModel";
 import {RequestStatus, StatusMapping} from "../../../core/enums/requestStatus";
 import {ConfirmValidDateMatcher, CustomValidators, MissingDateMatcher} from "../../../core/utils/customValidators";
 import {DateAdapter} from "@angular/material/core";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {ViewTripsService} from "../../../core/services/viewTrips.service";
-import {UserRoles} from "../../../core/enums/userRoles";
+import {Roles} from "../../../core/enums/Roles";
 import {AuthenticationService} from "../../../core/services/authentication.service";
 
 @Component({
@@ -30,7 +29,7 @@ export class FilterFormComponent implements OnInit {
   @Output()
   filter = new EventEmitter<FilterModel>();
 
-  constructor(private dateAdapter: DateAdapter<Date>, private _liveAnnouncer: LiveAnnouncer, private viewTripsService: ViewTripsService, private authenticationService: AuthenticationService) {
+  constructor(private dateAdapter: DateAdapter<Date>, private viewTripsService: ViewTripsService, private authenticationService: AuthenticationService) {
     this.dateAdapter.setLocale('en-GB');
   }
 
@@ -50,7 +49,7 @@ export class FilterFormComponent implements OnInit {
   }
 
   initForm() {
-    if (this.authenticationService.getUserRole() == UserRoles[0]) {
+    if (this.authenticationService.getRole() == Roles[0]) {
       this.filterForm = new FormGroup({
           'clientLocation': new FormControl(null, Validators.pattern("^[a-zA-Z ]*$")),
           'accommodation': new FormControl(null, Validators.pattern("^[a-zA-Z ]*$")),
@@ -60,7 +59,7 @@ export class FilterFormComponent implements OnInit {
           'status': new FormControl(null)
         },
         [CustomValidators.dateValidator]);
-    } else if (this.authenticationService.getUserRole() == UserRoles[1]) {
+    } else if (this.authenticationService.getRole() == Roles[1]) {
       this.filterForm = new FormGroup({
           'clientLocation': new FormControl(null),
           'accommodation': new FormControl(null),
@@ -74,7 +73,7 @@ export class FilterFormComponent implements OnInit {
 
   showStatusFormField()
   {
-    return this.authenticationService.getUserRole()==UserRoles[0] ? true: false;
+    return this.authenticationService.getRole()==Roles[0] ? true: false;
   }
 
   onClearEndDate(event) {
