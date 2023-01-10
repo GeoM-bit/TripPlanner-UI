@@ -1,0 +1,156 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>Register a New Business Trip <i class="fa-solid fa-briefcase fa-1x"></i></mat-card-title>
+    <mat-card-content>
+    <form [formGroup]="registerTripForm" (ngSubmit)="onSubmit()">
+      <div class="row-cols-5">
+      <mat-form-field>
+      <mat-label for="area">Area Type</mat-label>
+      <mat-select formControlName="area" name="area">
+        <mat-option *ngFor="let option of areaTypes" [value]="option">
+          {{areaMapping[option]}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="pmName">PM Name</mat-label>
+      <input matInput formControlName="pmName" />
+      <mat-error *ngIf="(!registerTripForm.get('pmName').valid || registerTripForm.get('pmName').errors?.whitespace) && !registerTripForm.get('pmName').errors?.required">
+        Please enter a valid PM Name!
+      </mat-error>
+      <mat-error *ngIf="registerTripForm.get('pmName').errors?.required">
+        PM Name is required!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="client">Client</mat-label>
+      <input matInput formControlName="client" />
+      <mat-error *ngIf="(!registerTripForm.get('client').valid || registerTripForm.get('client').errors?.whitespace) && !registerTripForm.get('client').errors?.required">
+        Please enter a valid Client Name!
+      </mat-error>
+      <mat-error *ngIf="registerTripForm.get('client').errors?.required">
+        Client Name is required!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="clientLocation">Client Location</mat-label>
+      <input matInput formControlName="clientLocation" />
+      <mat-error *ngIf="(!registerTripForm.get('clientLocation').valid || registerTripForm.get('clientLocation').errors?.whitespace) && !registerTripForm.get('clientLocation').errors?.required">
+        Please enter a valid Client Location!
+      </mat-error>
+      <mat-error *ngIf="registerTripForm.get('clientLocation').errors?.required">
+        Client Location is required!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="projectName">Project Name</mat-label>
+      <input matInput formControlName="projectName" />
+      <mat-error *ngIf="(!registerTripForm.get('projectName').valid || registerTripForm.get('projectName').errors?.whitespace) && !registerTripForm.get('projectName').errors?.required">
+        Please enter a valid Project Name!
+      </mat-error>
+      <mat-error *ngIf="registerTripForm.get('projectName').errors?.required">
+        Project Name is required!
+      </mat-error>
+    </mat-form-field>
+      </div>
+      <div class="row">
+    <mat-form-field>
+      <mat-label for="projectNumber">Project Number</mat-label>
+      <input matInput formControlName="projectNumber" />
+      <mat-error *ngIf="(!registerTripForm.get('projectNumber').valid || registerTripForm.get('projectNumber').errors?.whitespace) && !registerTripForm.get('projectNumber').errors?.required">
+        Please enter a valid Project Number!
+      </mat-error>
+      <mat-error *ngIf="registerTripForm.get('projectNumber').errors?.required">
+        Project Number is required!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="taskName">Task Name</mat-label>
+      <input matInput formControlName="taskName" />
+      <mat-error *ngIf="(!registerTripForm.get('taskName').valid || registerTripForm.get('taskName').errors?.whitespace) && !registerTripForm.get('taskName').errors?.required">
+        Please enter a valid Task Name!
+      </mat-error>
+      <mat-error *ngIf="registerTripForm.get('taskName').errors?.required">
+        Task Name is required!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="taskNumber">Task Number</mat-label>
+      <input matInput formControlName="taskNumber" />
+      <mat-error *ngIf="(!registerTripForm.get('taskNumber').valid || registerTripForm.get('taskNumber').errors?.whitespace) && !registerTripForm.get('taskNumber').errors?.required">
+        Please enter a valid Task Number!
+      </mat-error>
+      <mat-error *ngIf="registerTripForm.get('taskNumber').errors?.required">
+        Task Number is required!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="departureLocation">Departure location</mat-label>
+      <input matInput formControlName="departureLocation" />
+      <mat-error *ngIf="(!registerTripForm.get('departureLocation').valid || registerTripForm.get('departureLocation').errors?.whitespace) && !registerTripForm.get('departureLocation').errors?.required">
+        Please enter a valid departure location!
+      </mat-error>
+      <mat-error *ngIf="registerTripForm.get('departureLocation').errors?.required">
+        Departure location is required!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="meansOfTransport">Means of transport</mat-label>
+      <input matInput formControlName="meansOfTransport" />
+      <mat-error *ngIf="(!registerTripForm.get('meansOfTransport').valid || registerTripForm.get('meansOfTransport').errors?.whitespace) && !registerTripForm.get('meansOfTransport').errors?.required">
+        Please enter a valid Means of Transport!
+      </mat-error>
+      <mat-error *ngIf="registerTripForm.get('meansOfTransport').errors?.required">
+        Means of Transport is required!
+      </mat-error>
+    </mat-form-field>
+      </div>
+      <div class="row">
+    <mat-form-field>
+      <mat-label for="accommodation">Accommodation</mat-label>
+      <input matInput formControlName="accommodation" />
+      <mat-error *ngIf="(!registerTripForm.get('accommodation').valid || registerTripForm.get('accommodation').errors?.whitespace) && !registerTripForm.get('accommodation').errors?.required">
+        Please enter a valid Accommodation!
+      </mat-error>
+      <mat-error *ngIf="registerTripForm.get('accommodation').errors?.required">
+        Accommodation is required!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Start date</mat-label>
+      <input matInput readonly formControlName="startDate" [matDatepicker]="startDatePicker" [(ngModel)]="clearStartDate" [errorStateMatcher]="confirmValidDateMatcher">
+      <button *ngIf="clearStartDate" matSuffix mat-icon-button (click)="onClearStartDate($event)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+      <mat-error *ngIf="(registerTripForm.hasError('dateInvalid'))">
+        Start date cannot be equal or greater than end date!
+      </mat-error>
+      <mat-error *ngIf="(registerTripForm.hasError('missingStartDate'))">
+        Please choose a start date!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>End date</mat-label>
+      <input matInput readonly formControlName="endDate" [matDatepicker]="endDatePicker" [(ngModel)]="clearEndDate" [errorStateMatcher]="missingDateMatcher">
+      <button *ngIf="clearEndDate" matSuffix mat-icon-button (click)="onClearEndDate($event)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+      <mat-error *ngIf="(registerTripForm.hasError('missingEndDate'))">
+        Please choose an end date!
+      </mat-error>
+    </mat-form-field>
+      <mat-checkbox color="primary" formControlName="phone" >Phone</mat-checkbox>
+      <mat-checkbox color="primary" formControlName="card" >Card</mat-checkbox>
+      <mat-form-field>
+        <mat-label for="additionalInfo">Additional Information</mat-label>
+        <input matInput formControlName="additionalInfo" />
+      </mat-form-field>
+      </div>
+    </form>
+    </mat-card-content>
+  </mat-card>
+</div>

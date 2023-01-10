@@ -5,6 +5,7 @@ import { RegisterComponent } from './features/components/register/register.compo
 import { LoginComponent } from './features/components/login/login.component';
 import { LayoutComponent } from './core/components/layout/layout.component';
 import {ViewTripsPageComponent} from "./features/components/view-trips-page/view-trips-page.component";
+import {RegisterTripsFormComponent} from "./features/components/register-trips-form/register-trips-form.component";
 
 const routes: Routes = [
   {
@@ -17,6 +18,9 @@ const routes: Routes = [
       },
       {
         path: 'view-trips', component: ViewTripsPageComponent
+      },
+      {
+        path: 'register-trip', component: RegisterTripsFormComponent
       }
       ]
   }

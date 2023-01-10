@@ -32,6 +32,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {CdkColumnDef} from "@angular/cdk/table";
 import {CommonModule} from "@angular/common";
 import {DialogComponent} from './features/components/dialog/dialog.component';
+import { RegisterTripsFormComponent } from './features/components/register-trips-form/register-trips-form.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import {DialogComponent} from './features/components/dialog/dialog.component';
     FilterFormComponent,
     TripsTableComponent,
     ViewTripsPageComponent,
-    DialogComponent
+    DialogComponent,
+    RegisterTripsFormComponent
   ],
     imports: [
         BrowserModule,
@@ -66,6 +69,7 @@ import {DialogComponent} from './features/components/dialog/dialog.component';
         AppRoutingModule,
         MatPaginatorModule,
         MatDialogModule,
+        MatCheckboxModule,
         CommonModule,
     ],
   providers: [
