@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './core/components/layout/layout.component';
@@ -16,8 +16,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
+import { MatSortModule } from '@angular/material/sort';
 import { LoginComponent } from './features/components/login/login.component';
 import { AppRoutingModule } from './app-routing.module';
+import { FilterFormComponent } from './features/components/filter-form/filter-form.component';
+import { TripsTableComponent } from './features/components/trips-table/trips-table.component';
+import { ViewTripsPageComponent } from './features/components/view-trips-page/view-trips-page.component';
+import {JwtInterceptor} from "./core/interceptor/token.interceptor";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {CdkColumnDef} from "@angular/cdk/table";
+import {CommonModule} from "@angular/common";
+import {DialogComponent} from './features/components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,23 +40,39 @@ import { AppRoutingModule } from './app-routing.module';
     RegisterComponent,
     SnackBarComponent,
     LoginComponent,
+    FilterFormComponent,
+    TripsTableComponent,
+    ViewTripsPageComponent,
+    DialogComponent
   ],
-  imports: [
-    BrowserModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    FormsModule,
-    MatToolbarModule,
-    MatCardModule,
-    HttpClientModule,
-    MatSnackBarModule,
-    AppRoutingModule
+    imports: [
+        BrowserModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        FormsModule,
+        MatToolbarModule,
+        MatCardModule,
+        MatTableModule,
+        MatDatepickerModule,
+        HttpClientModule,
+        MatSnackBarModule,
+        MatSelectModule,
+        MatSortModule,
+        MatMomentDateModule,
+        AppRoutingModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        CommonModule,
+    ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    { provide: CdkColumnDef}
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
