@@ -30,7 +30,7 @@ export class TripsTableComponent implements OnInit, AfterViewInit{
   status: RequestStatus;
   statusMapping = StatusMapping;
   areaMapping = AreaMapping;
-  user: string;
+  currentRole: string;
   dataSource= new MatTableDataSource<any>;
   noTrips=false;
   updateTripStatusModel= new UpdateTripStatusModel();
@@ -45,7 +45,7 @@ export class TripsTableComponent implements OnInit, AfterViewInit{
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
-    this.user = this.authenticationService.getRole();
+    this.currentRole = this.authenticationService.getRole();
     this.getData(this.filter);
   }
 
@@ -56,7 +56,7 @@ export class TripsTableComponent implements OnInit, AfterViewInit{
   }
 
   getData(searchCriteria: FilterModel){
-    if(this.user==Roles[0]) {
+    if(this.currentRole==Roles[0]) {
       this.displayedColumns=this.displayedColumnsUser;
       this.viewTripsService.getFilteredTripsForUser(searchCriteria).subscribe((response: UserTripModel[]) => {
         this.dataSource = new MatTableDataSource(response);
@@ -67,7 +67,7 @@ export class TripsTableComponent implements OnInit, AfterViewInit{
         }
       })
     }
-    if(this.user==Roles[1]) {
+    if(this.currentRole==Roles[1]) {
       this.displayedColumns=this.displayedColumnsBTO;
       this.viewTripsService.getFilteredTripsForBTO(searchCriteria).subscribe((response: BtoTripModel[]) => {
         this.dataSource = new MatTableDataSource(response);
