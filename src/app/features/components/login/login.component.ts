@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(localStorage.getItem('token'));
     this.loginModel = this.loginForm.value;
     this.authenticationService.login(this.loginModel).subscribe((response: TokenModel) => {
       if(response!=null) {

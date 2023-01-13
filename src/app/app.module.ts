@@ -34,6 +34,8 @@ import {CommonModule} from "@angular/common";
 import {DialogComponent} from './features/components/dialog/dialog.component';
 import { RegisterTripsFormComponent } from './features/components/register-trips-form/register-trips-form.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatMenuModule} from "@angular/material/menu";
+import { ForbiddenComponent } from './core/components/forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     TripsTableComponent,
     ViewTripsPageComponent,
     DialogComponent,
-    RegisterTripsFormComponent
+    RegisterTripsFormComponent,
+    ForbiddenComponent
   ],
     imports: [
         BrowserModule,
@@ -71,6 +74,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         MatDialogModule,
         MatCheckboxModule,
         CommonModule,
+        MatMenuModule,
     ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

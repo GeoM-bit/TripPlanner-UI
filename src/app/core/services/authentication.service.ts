@@ -21,14 +21,34 @@ export class AuthenticationService {
     return this.http.post<TokenModel>(environment.baseUrl + '/api/user/login', user);
   }
 
+  logout():Observable<any>{
+    return this.http.post<any>(environment.baseUrl + '/api/user/logout',null);
+  }
+
   getUserRole()
   {
     let token = localStorage.getItem('token');
-    let jwtData = token.split('.')[1];
-    let decodedJwtJsonData = window.atob(jwtData);
-    let decodedJwtData = JSON.parse(decodedJwtJsonData);
+    if(token!=null) {
+      let jwtData = token.split('.')[1];
+      let decodedJwtJsonData = window.atob(jwtData);
+      let decodedJwtData = JSON.parse(decodedJwtJsonData);
 
-    return decodedJwtData.role;
+      return decodedJwtData.role;
+    }
+    return null;
+  }
+
+  getUserEmail() : string
+  {
+    let token = localStorage.getItem('token');
+    if(token!=null) {
+      let jwtData = token.split('.')[1];
+      let decodedJwtJsonData = window.atob(jwtData);
+      let decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+      return decodedJwtData.name;
+    }
+    return null;
   }
 
 }
