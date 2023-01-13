@@ -4,7 +4,7 @@ import {LoginModel} from "../../../../models/loginModel";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomValidators} from "../../../core/utils/customValidators";
 import {SnackBarComponent} from "../snack-bar/snack-bar.component";
-import {UserRoles} from "../../../core/enums/userRoles";
+import {Roles} from "../../../core/enums/Roles";
 import {TokenModel} from "../../../../models/tokenModel";
 import {Router} from "@angular/router";
 
@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     this.loginModel = this.loginForm.value;
     this.authenticationService.login(this.loginModel).subscribe((response: TokenModel) => {
       if(response!=null) {
-        localStorage.setItem('token', JSON.stringify({ token: response.token}));
         this.redirectToViewBusinessTripsBasedOnRole();
       }
       else {
@@ -43,8 +42,8 @@ export class LoginComponent implements OnInit {
   }
 
   redirectToViewBusinessTripsBasedOnRole(){
-    let role = this.authenticationService.getUserRole();
-    if(role==UserRoles[0] || role==UserRoles[1]) {
+    let role = this.authenticationService.getRole();
+    if(role==Roles[0] || role==Roles[1]) {
       this.router.navigate(['view-trips']);
     }
   }

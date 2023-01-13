@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router} from "@angular/router";
-import {UserRoles} from "../../enums/userRoles";
+import {Roles} from "../../enums/Roles";
 
 @Component({
   selector: 'app-layout',
@@ -9,8 +9,8 @@ import {UserRoles} from "../../enums/userRoles";
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit {
-  userRole = UserRoles[0];
-  btoRole = UserRoles[1];
+  userRole = Roles[0];
+  btoRole = Roles[1];
   userName: string;
   constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
@@ -24,7 +24,7 @@ export class LayoutComponent implements OnInit {
   }
 
   getRole(){
-    let role = this.authenticationService.getUserRole();
+    let role = this.authenticationService.getRole();
     if(role!=null)
       return role;
     return false;

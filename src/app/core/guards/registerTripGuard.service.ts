@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import {AuthenticationService} from "../services/authentication.service";
-import {UserRoles} from "../enums/userRoles";
+import {Roles} from "../enums/Roles";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class RegisterTripGuardService implements CanActivate {
   constructor(private router: Router, private authService: AuthenticationService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.authService.getUserRole()==UserRoles[0]) {
+    if (this.authService.getRole()==Roles[0]) {
       return true;
     } else {
       console.log(route);

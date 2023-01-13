@@ -7,7 +7,6 @@ import {LoginModel} from "../../../models/loginModel";
 import {TokenModel} from "../../../models/tokenModel";
 import {JwtHelperService} from "@auth0/angular-jwt";
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -31,7 +30,7 @@ export class AuthenticationService {
       });
   }
 
-  getUserRole() {
+  getRole(): string {
     let token = localStorage.getItem('token');
     if (token != null) {
       let jwtData = token.split('.')[1];
