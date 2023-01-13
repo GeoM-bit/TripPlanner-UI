@@ -17,13 +17,20 @@ export class AuthenticationService {
     return this.http.post(environment.baseUrl + '/api/user/register', user);
   }
 
-  login(user: LoginModel): Observable<any> {
-    return this.http.post<TokenModel>(environment.baseUrl + '/api/user/login', user);
+  login(user: LoginModel): Observable<TokenModel> {
+    let response = this.http.post<TokenModel>(environment.baseUrl + '/api/user/login', user);
+      response.subscribe((response: TokenModel) => {
+        if(response!=null) {
+          localStorage.setItem('token', JSON.stringify({token: response.token}));
+        }
+      });
+      return response;
   }
 
-  getUserRole(response: TokenModel)
+   getRole(): string
   {
-    let jwtData = response.token.split('.')[1];
+    let token = localStorage.getItem('token');
+    let jwtData = token.split('.')[1];
     let decodedJwtJsonData = window.atob(jwtData);
     let decodedJwtData = JSON.parse(decodedJwtJsonData);
 
