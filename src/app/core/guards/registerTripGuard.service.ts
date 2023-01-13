@@ -14,7 +14,6 @@ export class RegisterTripGuardService implements CanActivate {
     if (this.authService.getRole()==Roles[0]) {
       return true;
     } else {
-      console.log(route);
       this.router.navigate(['forbidden'], {
         queryParams: {
           return: state.url

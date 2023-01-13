@@ -12,7 +12,7 @@ import {ForbiddenComponent} from "./core/components/forbidden/forbidden.componen
 
 const routes: Routes = [
   {
-    path:'', redirectTo:'/login',  pathMatch: 'full'// component: LayoutComponent//, children: [
+    path:'', redirectTo:'/login',  pathMatch: 'full'
   },
   {
     path: 'register', component: RegisterComponent

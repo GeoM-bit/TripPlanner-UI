@@ -90,7 +90,7 @@ export function tokenGetter() {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
-    { provide: CdkColumnDef},
+    { provide: CdkColumnDef}
   ],
   bootstrap: [AppComponent]
 })
