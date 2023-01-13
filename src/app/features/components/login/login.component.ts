@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
     this.loginModel = this.loginForm.value;
     this.authenticationService.login(this.loginModel).subscribe((response: TokenModel) => {
       if(response!=null) {
-        localStorage.setItem('token', JSON.stringify({ token: response.token}));
         this.redirectToViewBusinessTripsBasedOnRole();
       }
       else {
