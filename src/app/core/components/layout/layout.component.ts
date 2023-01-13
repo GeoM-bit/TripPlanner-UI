@@ -15,13 +15,11 @@ export class LayoutComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
+
   }
 
   logout(){
-    debugger
-    this.authenticationService.logout().subscribe((response: any) => {
-        localStorage.removeItem('token');
-    });
+    this.authenticationService.logout();
     this.router.navigate(['login']);
   }
 
@@ -37,6 +35,10 @@ export class LayoutComponent implements OnInit {
     if(userName!=null)
       return userName;
     return false;
+  }
+
+  checkTokenValidity(): boolean{
+    return this.authenticationService.checkTokenExpired();
   }
 
   getLoginPage(){

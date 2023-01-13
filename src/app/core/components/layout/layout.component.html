@@ -1,7 +1,7 @@
 <div>
   <mat-toolbar>
     <span style="color:white">Business Trip Planner</span>
-    <div *ngIf="getRole()" class="menu-position">
+    <div *ngIf="!checkTokenValidity()" class="menu-position">
       <button mat-button [matMenuTriggerFor]="afterMenu"><span style="color:white"><i class="fa-solid fa-user" style="--fa-primary-color: white"></i>  Hello, {{getUserName()}}!</span></button>
       <mat-menu #afterMenu="matMenu" xPosition="after">
         <button mat-menu-item *ngIf="getRole()" (click)="logout()" >Logout</button>
@@ -9,7 +9,7 @@
         <button mat-menu-item *ngIf="getRole()==userRole" (click)="goToCreateTrip()">Create trip</button>
       </mat-menu>
     </div>
-    <div *ngIf="!getRole()" class="menu-position">
+    <div *ngIf="checkTokenValidity()" class="menu-position">
       <button *ngIf="getLoginPage()" mat-raised-button (click)="goToRegisterAccount()">Register your account</button>
       <button *ngIf="!getLoginPage()" mat-raised-button (click)="goToLogin()">Login</button>
     </div>
