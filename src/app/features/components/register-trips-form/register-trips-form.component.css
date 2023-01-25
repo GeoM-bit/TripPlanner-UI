@@ -1,0 +1,31 @@
+.container {
+  top: 15%;
+  position: relative;
+}
+
+.mat-card-title{
+  text-align: center;
+}
+
+.mat-form-field{
+  width: 30%;
+}
+
+.mat-checkbox{
+  margin-top: 1%;
+  width: 20%;
+}
+
+.form-button{
+  margin-top:  2%;
+  margin-left: 75%;
+  margin-bottom: 2%;
+}
+
+.mat-raised-button{
+  margin-right: 3%;
+}
+
+.mat-card-title{
+  margin-bottom: 3%;
+}

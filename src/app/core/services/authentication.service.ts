@@ -5,13 +5,15 @@ import { RegisterModel } from '../../../models/registerModel';
 import { environment } from 'src/environments/environment';
 import {LoginModel} from "../../../models/loginModel";
 import {TokenModel} from "../../../models/tokenModel";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthenticationService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
+  }
 
   register(user: RegisterModel): Observable<any> {
     return this.http.post(environment.baseUrl + '/api/user/register', user);
@@ -19,22 +21,49 @@ export class AuthenticationService {
 
   login(user: LoginModel): Observable<TokenModel> {
     let response = this.http.post<TokenModel>(environment.baseUrl + '/api/user/login', user);
-      response.subscribe((response: TokenModel) => {
-        if(response!=null) {
-          localStorage.setItem('token', JSON.stringify({token: response.token}));
-        }
+    response.subscribe((response: TokenModel) => {
+      if(response!=null) {
+        localStorage.setItem('token', JSON.stringify({token: response.token}));
+      }
+    });
+    return response;
+  }
+
+  logout() {
+    this.http.post<any>(environment.baseUrl + '/api/user/logout', null)
+      .subscribe((response: any) => {
+        localStorage.removeItem('token');
       });
-      return response;
   }
 
-   getRole(): string
-  {
+  getRole(): string {
     let token = localStorage.getItem('token');
-    let jwtData = token.split('.')[1];
-    let decodedJwtJsonData = window.atob(jwtData);
-    let decodedJwtData = JSON.parse(decodedJwtJsonData);
+    if (token != null) {
+      let jwtData = token.split('.')[1];
+      let decodedJwtJsonData = window.atob(jwtData);
+      let decodedJwtData = JSON.parse(decodedJwtJsonData);
 
-    return decodedJwtData.role;
+      return decodedJwtData.role;
+    }
+    return null;
   }
 
+  getUserEmail(): string {
+    let token = localStorage.getItem('token');
+    if (token != null) {
+      let jwtData = token.split('.')[1];
+      let decodedJwtJsonData = window.atob(jwtData);
+      let decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+      return decodedJwtData.name;
+    }
+    return null;
+  }
+
+  checkTokenExpired(): boolean {
+    if (this.jwtHelper.isTokenExpired(localStorage.getItem('token'))) {
+      return true;
+    }
+    return false;
+  }
 }

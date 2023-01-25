@@ -9,11 +9,11 @@ import { ErrorStateMatcher } from '@angular/material/core';
 
 export class CustomValidators {
   static PasswordMatchValidator(source: FormGroup) {
-      const control1 = source.controls['password'];
-      const control2 = source.controls['confirmationPassword'];
-      return control1 && control2 && control1.value !== control2.value
-        ? { 'mismatch': true }
-        : null;
+    const control1 = source.controls['password'];
+    const control2 = source.controls['confirmationPassword'];
+    return control1 && control2 && control1.value !== control2.value
+      ? { 'mismatch': true }
+      : null;
   }
 
   static WhitespaceInput(control: FormControl) {
@@ -25,8 +25,13 @@ export class CustomValidators {
   static dateValidator(control: AbstractControl){
     const start = control.get('startDate');
     const end = control.get('endDate');
-    if (start.value !== null && end.value !== null && start.value >= end.value) {
-      return {dateInvalid: true};
+    if (start.value !== null && end.value !== null) {
+      if(start.value <= Date.now()) {
+        return {pastDate: true}
+      }
+      if(start.value >= end.value){
+        return {dateInvalid: true};
+      }
     }
     else if(start.value !== null && end.value == null){
       return {missingEndDate: true};
@@ -50,9 +55,21 @@ export class ConfirmValidDateMatcher implements ErrorStateMatcher {
   }
 }
 
-  export class MissingDateMatcher implements ErrorStateMatcher {
+export class MissingDateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     return control.parent.errors?.missingEndDate;
+  }
+}
+
+export class ConfirmValidDateMatcherTrip implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    return (control.parent.errors?.dateInvalid && control.touched) || (control.touched && control.errors?.required) || control.parent.errors?.missingStartDate || (control.touched && control.parent.errors?.pastDate);
+  }
+}
+
+export class MissingDateMatcherTrip implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    return (control.touched && (control.errors?.required || control.parent.errors?.missingEndDate)) || control.parent.errors?.missingEndDate;
   }
 }
 

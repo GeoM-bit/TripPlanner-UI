@@ -32,6 +32,15 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {CdkColumnDef} from "@angular/cdk/table";
 import {CommonModule} from "@angular/common";
 import {DialogComponent} from './features/components/dialog/dialog.component';
+import { RegisterTripsFormComponent } from './features/components/register-trips-form/register-trips-form.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatMenuModule} from "@angular/material/menu";
+import { ForbiddenComponent } from './core/components/forbidden/forbidden.component';
+import {JwtModule} from "@auth0/angular-jwt";
+
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 
 @NgModule({
   declarations: [
@@ -43,31 +52,41 @@ import {DialogComponent} from './features/components/dialog/dialog.component';
     FilterFormComponent,
     TripsTableComponent,
     ViewTripsPageComponent,
-    DialogComponent
+    DialogComponent,
+    RegisterTripsFormComponent,
+    ForbiddenComponent
   ],
-    imports: [
-        BrowserModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-        FormsModule,
-        MatToolbarModule,
-        MatCardModule,
-        MatTableModule,
-        MatDatepickerModule,
-        HttpClientModule,
-        MatSnackBarModule,
-        MatSelectModule,
-        MatSortModule,
-        MatMomentDateModule,
-        AppRoutingModule,
-        MatPaginatorModule,
-        MatDialogModule,
-        CommonModule,
-    ],
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    FormsModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatTableModule,
+    MatDatepickerModule,
+    HttpClientModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    MatSortModule,
+    MatMomentDateModule,
+    AppRoutingModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    CommonModule,
+    MatMenuModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:4200"],
+      },
+    }),
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
