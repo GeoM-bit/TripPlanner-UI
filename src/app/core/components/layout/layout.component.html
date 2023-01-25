@@ -5,8 +5,8 @@
       <button mat-button [matMenuTriggerFor]="afterMenu"><span style="color:white"><i class="fa-solid fa-user" style="--fa-primary-color: white"></i>  Hello, {{getUserName()}}!</span></button>
       <mat-menu #afterMenu="matMenu" xPosition="after">
         <button mat-menu-item *ngIf="getRole()" (click)="logout()" >Logout</button>
-        <button mat-menu-item *ngIf="getRole()==userRole" (click)="goToViewTrips()">See business trips</button>
-        <button mat-menu-item *ngIf="getRole()==userRole" (click)="goToCreateTrip()">Create trip</button>
+        <button mat-menu-item *ngIf="checkIfUserRole()" (click)="goToViewTrips()">See business trips</button>
+        <button mat-menu-item *ngIf="checkIfUserRole()" (click)="goToCreateTrip()">Create trip</button>
       </mat-menu>
     </div>
     <div *ngIf="checkTokenValidity()" class="menu-position">

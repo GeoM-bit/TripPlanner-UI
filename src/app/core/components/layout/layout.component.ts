@@ -9,9 +9,6 @@ import {Roles} from "../../enums/Roles";
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit {
-  userRole = Roles[0];
-  btoRole = Roles[1];
-  userName: string;
   constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
@@ -27,6 +24,13 @@ export class LayoutComponent implements OnInit {
     let role = this.authenticationService.getRole();
     if(role!=null)
       return role;
+    return false;
+  }
+
+  checkIfUserRole(){
+    let role = this.authenticationService.getRole();
+    if(role==Roles[Roles.User])
+      return true;
     return false;
   }
 
