@@ -18,16 +18,17 @@ export class AuthenticationService {
   }
 
   login(user: LoginModel): Observable<TokenModel> {
-    let response = this.http.post<TokenModel>(environment.baseUrl + '/api/user/login', user);
-      response.subscribe((response: TokenModel) => {
-        if(response!=null) {
-          localStorage.setItem('token', JSON.stringify({token: response.token}));
-        }
-      });
-      return response;
+    let result = this.http.post<TokenModel>(environment.baseUrl + '/api/user/login', user);
+    result.subscribe((response: TokenModel) => {
+      if(response!=null) {
+        localStorage.setItem('token', JSON.stringify({token: response.token}));
+        localStorage.setItem('refreshToken', JSON.stringify({refreshToken: response.refreshToken}));
+      }
+    });
+    return result;
   }
 
-   getRole(): string
+  getRole(): string
   {
     let token = localStorage.getItem('token');
     let jwtData = token.split('.')[1];
@@ -35,6 +36,16 @@ export class AuthenticationService {
     let decodedJwtData = JSON.parse(decodedJwtJsonData);
 
     return decodedJwtData.role;
+  }
+
+  refreshToken(token: TokenModel): Observable<any>{
+    let result =  this.http.post<TokenModel>(environment.baseUrl + '/api/user/refresh-token', token);
+    result.subscribe((response: TokenModel) => {
+      localStorage.setItem('token', JSON.stringify({token: response.token}));
+      localStorage.setItem('refreshToken', JSON.stringify({refreshToken: response.refreshToken}));
+    });
+
+    return result;
   }
 
 }
